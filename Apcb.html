@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Download TikTok No Watermark</title>
+  <style>
+    body { font-family: Arial; text-align: center; padding: 30px; }
+    input, button { padding: 10px; margin: 10px; width: 300px; }
+    video { margin-top: 20px; width: 90%; max-width: 500px; }
+  </style>
+</head>
+<body>
+  <h1>TikTok Downloader No Watermark</h1>
+  <input type="text" id="url" placeholder="Paste TikTok video URL here" />
+  <button onclick="download()">Download</button>
+  <div id="result"></div>
+
+  <script>
+    async function download() {
+      const url = document.getElementById('url').value;
+      const result = document.getElementById('result');
+      result.innerHTML = "Loading...";
+
+      try {
+        const res = await fetch(`https://api.tikwm.com/video/info?url=${encodeURIComponent(url)}`);
+        const data = await res.json();
+        if (data && data.data && data.data.play) {
+          result.innerHTML = `
+            <video controls src="${data.data.play}" ></video><br>
+            <a href="${data.data.play}" download>Download Video (No Watermark)</a>
+          `;
+        } else {
+          result.innerHTML = "Failed to get video.";
+        }
+      } catch (e) {
+        result.innerHTML = "Error fetching video.";
+      }
+    }
+  </script>
+</body>
+</html>
